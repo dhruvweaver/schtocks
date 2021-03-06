@@ -90,6 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // replace with ListView builder and child ItemBuilder to dynamically
           // change list size
           child: ListView(
+            physics: BouncingScrollPhysics(),
             children: [
               StockCard(),
             ],
