@@ -13,7 +13,7 @@ class Graph extends StatefulWidget {
 
 class _GraphState extends State<Graph> {
   _GraphState(this.isExpanded);
-  bool isExpanded = true;
+  bool isExpanded;
   
   int _counter = 0;
   Color col = Colors.red;
@@ -21,7 +21,7 @@ class _GraphState extends State<Graph> {
   var _spots = <FlSpot>[FlSpot(0, 0)];
   var rng = new Random();
 
-  void _incrementCounter() {
+  void incrementCounter() {
     setState(() {
       _counter++;
       _values.add(_values.last + rng.nextInt(1000) - 500);
@@ -40,7 +40,7 @@ class _GraphState extends State<Graph> {
   @override
   Widget build(BuildContext context) {
     for (int i = 0; i < 40; i++) {
-      _incrementCounter();
+      incrementCounter();
     }
     return LineChart(LineChartData(
         titlesData: FlTitlesData(

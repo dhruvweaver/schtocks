@@ -9,10 +9,19 @@ class StockCard extends StatefulWidget {
 
 class _StockCardState extends State<StockCard> {
   
-  bool isExpanded = true;
+  bool _isExpanded = true;
+  
+  
+  void _changeExpanded() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    Graph g = Graph(isExpanded: true,);
+    Graph h = Graph(isExpanded: false,);
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 3,
@@ -33,7 +42,7 @@ class _StockCardState extends State<StockCard> {
             ),
             Spacer(),
             SizedBox(
-              child: Graph(isExpanded: isExpanded),
+              child: _isExpanded ? g : h,
               height: 100,
               width: 200
             ),
@@ -45,12 +54,13 @@ class _StockCardState extends State<StockCard> {
                 IconButton(
                     icon: Icon(Icons.keyboard_arrow_down_rounded),
                     splashRadius: 15,
-                    onPressed:() { setState(() { isExpanded = !isExpanded; }); },
+                    onPressed:() { 
+                      _changeExpanded();}
                 ),
                 Row(
                   children: [
                     Text(
-                      '38%',
+                      _isExpanded.toString(),
                       style: TextStyle(
                         fontSize: 22,
                         color: Theme.of(context).primaryColor,
