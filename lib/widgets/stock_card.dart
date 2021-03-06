@@ -28,10 +28,14 @@ class _StockCardState extends State<StockCard> {
                 )
               ],
             ),
-            // Spacer(),
-            Graph(),
+            Spacer(),
+            SizedBox(
+              child: Graph(isExpanded: false),
+              height: 100,
+              width: 200
+            ),
             // Text('Graph placeholder'),
-            // Spacer(),
+            Spacer(),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
