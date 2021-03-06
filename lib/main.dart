@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'My Portfolio',
       theme: ThemeData(
         primaryColor: Color.fromRGBO(104, 169, 116, 1),
+        accentColor: Color.fromRGBO(221, 111, 114, 1),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
         ),
