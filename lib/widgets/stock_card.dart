@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './graph.dart';
+
 class StockCard extends StatefulWidget {
   @override
   _StockCardState createState() => _StockCardState();
@@ -27,6 +29,7 @@ class _StockCardState extends State<StockCard> {
               ],
             ),
             Spacer(),
+            //Graph(),
             Text('Graph placeholder'),
             Spacer(),
             Column(
