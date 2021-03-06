@@ -1,3 +1,6 @@
 import './stock.dart';
 
-var stocks = [];
+class StockData {
+  var stocks = [];
+  // TODO: get stocks data from server
+}

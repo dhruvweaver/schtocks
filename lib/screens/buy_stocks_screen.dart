@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/app_bar_builder.dart';
 import '../widgets/stock_card.dart';
 
 class BuyStocksScreen extends StatefulWidget {

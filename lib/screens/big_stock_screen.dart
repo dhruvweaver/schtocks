@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../widgets/graph_big.dart';
 
 class BigStockScreen extends StatefulWidget {
+  //TODO: create boolean parameter that determines whether or not to enable
+  // buying functionality.
+
   @override
   _BigStockScreenState createState() => _BigStockScreenState();
 }
