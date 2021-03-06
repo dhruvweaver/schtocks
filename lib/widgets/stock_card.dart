@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:schtocks/widgets/graph_small.dart';
+import 'package:schtocks/widgets/graph_big.dart';
 
-import './graph.dart';
 
 class StockCard extends StatefulWidget {
   @override
@@ -9,19 +10,9 @@ class StockCard extends StatefulWidget {
 
 class _StockCardState extends State<StockCard> {
   
-  bool _isExpanded = true;
-  
-  
-  void _changeExpanded() {
-    setState(() {
-      _isExpanded = !_isExpanded;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    Graph g = Graph(isExpanded: true,);
-    Graph h = Graph(isExpanded: false,);
+    GraphSmall g = GraphSmall();
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 3,
@@ -42,7 +33,7 @@ class _StockCardState extends State<StockCard> {
             ),
             Spacer(),
             SizedBox(
-              child: _isExpanded ? g : h,
+              child: g,
               height: 100,
               width: 200
             ),
@@ -54,13 +45,12 @@ class _StockCardState extends State<StockCard> {
                 IconButton(
                     icon: Icon(Icons.keyboard_arrow_down_rounded),
                     splashRadius: 15,
-                    onPressed:() { 
-                      _changeExpanded();}
+                    onPressed:() {}
                 ),
                 Row(
                   children: [
                     Text(
-                      _isExpanded.toString(),
+                      '38%',
                       style: TextStyle(
                         fontSize: 22,
                         color: Theme.of(context).primaryColor,

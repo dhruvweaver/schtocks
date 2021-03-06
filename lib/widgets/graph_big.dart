@@ -1,20 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math';
 
-class Graph extends StatefulWidget {
-  final bool isExpanded;
-  Graph({
-    bool isExpanded
-  }): this.isExpanded = isExpanded;
-
-  _GraphState createState() => _GraphState(isExpanded);
+class GraphBig extends StatefulWidget {
+  @override
+  _GraphBigState createState() => new _GraphBigState();
 }
 
-class _GraphState extends State<Graph> {
-  _GraphState(this.isExpanded);
-  bool isExpanded;
-  
+class _GraphBigState extends State<GraphBig> { 
   int _counter = 0;
   Color col = Colors.red;
   var _values = <int>[0];
@@ -42,10 +37,10 @@ class _GraphState extends State<Graph> {
     for (int i = 0; i < 40; i++) {
       incrementCounter();
     }
-    return LineChart(LineChartData(
+    return new LineChart(LineChartData(
         titlesData: FlTitlesData(
             bottomTitles: SideTitles(
-              showTitles: this.isExpanded,
+              showTitles: true,
               getTitles: (value) {
                 if (value.toInt() % 12 == 0) {
                   return ((value % 144) ~/ 12).toString() + ':00';
@@ -57,12 +52,12 @@ class _GraphState extends State<Graph> {
         minX: (_counter - 40).toDouble(),
         minY: 0,
         extraLinesData: ExtraLinesData(horizontalLines: [
-          HorizontalLine(y: 0, strokeWidth: this.isExpanded ? 1 : 0, label: HorizontalLineLabel())
+          HorizontalLine(y: 0, strokeWidth: 1, label: HorizontalLineLabel())
         ]),
         clipData:
             FlClipData(left: true, right: true, top: false, bottom: true),
         axisTitleData: FlAxisTitleData(
-          show: this.isExpanded,
+          show: true,
           leftTitle: AxisTitle(
             showTitle: true,
             titleText: 'Value',
@@ -83,9 +78,9 @@ class _GraphState extends State<Graph> {
           ),
         ),
         gridData: FlGridData(
-            show: this.isExpanded, drawHorizontalLine: true, horizontalInterval: 1000),
+            show: true, drawHorizontalLine: true, horizontalInterval: 1000),
         lineTouchData: LineTouchData(
-            enabled: this.isExpanded,
+            enabled: true,
             touchTooltipData: LineTouchTooltipData(
                 tooltipBgColor: Color.fromRGBO(0, 0, 0, 0))),
         borderData: FlBorderData(show: true, border: Border()),
