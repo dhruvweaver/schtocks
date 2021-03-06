@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/app_bar_builder.dart';
-import '../widgets/stock_card.dart';
+import '../widgets/graph.dart';
 
-class BuyStocksScreen extends StatefulWidget {
+class BigStockScreen extends StatefulWidget {
   @override
-  _BuyStocksScreenState createState() => _BuyStocksScreenState();
+  _BigStockScreenState createState() => _BigStockScreenState();
 }
 
-class _BuyStocksScreenState extends State<BuyStocksScreen> {
+class _BigStockScreenState extends State<BigStockScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +15,7 @@ class _BuyStocksScreenState extends State<BuyStocksScreen> {
         iconTheme: Theme.of(context).iconTheme,
         centerTitle: true,
         title: Text(
-          'Buy Stocks',
+          'Stock 1',
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.normal,
@@ -26,17 +25,12 @@ class _BuyStocksScreenState extends State<BuyStocksScreen> {
         elevation: 0,
       ),
       body: Center(
-        // ListView will contain stock widgets
         child: Padding(
           padding: const EdgeInsets.all(20),
-          // replace with ListView builder and child ItemBuilder to dynamically
-          // change list size
-          child: ListView(
-            physics: BouncingScrollPhysics(),
+          child: Column(
             children: [
-              StockCard(),
-              StockCard(),
-              StockCard(),
+              Text('About'),
+              Graph(),
             ],
           ),
         ),
