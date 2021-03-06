@@ -40,10 +40,14 @@ class _StockCardState extends State<StockCard> {
                   children: [
                     Text(
                       '38%',
-                      style: TextStyle(fontSize: 22),
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
                     Icon(
                       Icons.arrow_upward_rounded,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ],
                 ),
