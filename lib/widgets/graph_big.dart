@@ -3,53 +3,71 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math';
+import 'package:intl/intl.dart';
 
 class GraphBig extends StatefulWidget {
+  final List<int> times;
+  final List<double> prices;
+  GraphBig({
+    List<int> times,
+    List<double> prices
+  }): this.times = times, this.prices = prices;
+
   @override
-  _GraphBigState createState() => new _GraphBigState();
+  _GraphBigState createState() => new _GraphBigState(times, prices);
 }
 
 class _GraphBigState extends State<GraphBig> { 
-  int _counter = 0;
-  Color col = Colors.red;
-  var _values = <int>[0];
-  var _spots = <FlSpot>[FlSpot(0, 0)];
-  var rng = new Random();
+  _GraphBigState(this.times, this.prices);
+  final List<int> times;
+  final List<double> prices;
 
-  void incrementCounter() {
-    setState(() {
-      _counter++;
-      _values.add(_values.last + rng.nextInt(1000) - 500);
-      if (_values.last < 0) {
-        _values.last = 0;
-      }
-      _spots.add(FlSpot(_counter.toDouble(), _values.last.toDouble()));
-      if (_values[_counter] > _values[_counter - 1]) {
-        col = Colors.green;
+  Color col = Colors.red;
+  var _spots = <FlSpot>[];
+
+  void initializeSpots() {
+    for (int i = 0; i < times.length; i++) {
+      _spots.add(FlSpot(times[i].toDouble(), prices[i]));
+    }
+
+    if (prices.length > 1 && prices[prices.length] > prices[prices.length-1]){
+      col = Colors.green;
+    }
+  }
+
+  String readTimestamp(int timestamp) {
+    var now = new DateTime.now();
+    var format = new DateFormat('HH:mm a');
+    var date = new DateTime.fromMicrosecondsSinceEpoch(timestamp * 1000);
+    var diff = date.difference(now);
+    var time = '';
+
+    if (diff.inSeconds <= 0 || diff.inSeconds > 0 && diff.inMinutes == 0 || diff.inMinutes > 0 && diff.inHours == 0 || diff.inHours > 0 && diff.inDays == 0) {
+      time = format.format(date);
+    } else {
+      if (diff.inDays == 1) {
+        time = diff.inDays.toString() + 'DAY AGO';
       } else {
-        col = Colors.red;
+        time = diff.inDays.toString() + 'DAYS AGO';
       }
-    });
+    }
+
+    return time;
   }
 
   @override
   Widget build(BuildContext context) {
-    for (int i = 0; i < 40; i++) {
-      incrementCounter();
-    }
+    initializeSpots();
+    
     return new LineChart(LineChartData(
         titlesData: FlTitlesData(
             bottomTitles: SideTitles(
               showTitles: true,
               getTitles: (value) {
-                if (value.toInt() % 12 == 0) {
-                  return ((value % 144) ~/ 12).toString() + ':00';
-                }
-                return '';
+                return readTimestamp(value.toInt());
               },
             ),
             leftTitles: SideTitles()),
-        minX: (_counter - 40).toDouble(),
         minY: 0,
         extraLinesData: ExtraLinesData(horizontalLines: [
           HorizontalLine(y: 0, strokeWidth: 1, label: HorizontalLineLabel())
