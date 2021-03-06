@@ -4,7 +4,6 @@ import 'package:schtocks/screens/buy_stocks_screen.dart';
 import 'dart:io';
 
 import './widgets/stock_card.dart';
-import './widgets/app_bar_builder.dart';
 import './screens/buy_stocks_screen.dart';
 
 void main() {
