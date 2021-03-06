@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:schtocks/screens/buy_stocks_screen.dart';
 import 'dart:io';
 
 import './widgets/stock_card.dart';
+import './screens/buy_stocks_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
         ),
         canvasColor: Colors.white,
         fontFamily: 'Oswald',
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       home: MyHomePage(title: 'My Portfolio'),
     );
@@ -60,7 +63,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.black,
                   ),
                   splashRadius: 24,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BuyStocksScreen(),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -102,8 +112,14 @@ class _MyHomePageState extends State<MyHomePage> {
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: FloatingActionButton(
-                // add navigator when stock shopping page is complete
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BuyStocksScreen(),
+                    ),
+                  );
+                },
                 backgroundColor: Theme.of(context).primaryColor,
                 tooltip: 'Get stocks',
                 child: Icon(Icons.add),
