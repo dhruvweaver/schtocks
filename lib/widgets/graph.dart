@@ -42,63 +42,61 @@ class _GraphState extends State<Graph> {
     for (int i = 0; i < 40; i++) {
       _incrementCounter();
     }
-    return Expanded(
-      child: LineChart(LineChartData(
-          titlesData: FlTitlesData(
-              bottomTitles: SideTitles(
-                showTitles: this.isExpanded,
-                getTitles: (value) {
-                  if (value.toInt() % 12 == 0) {
-                    return ((value % 144) ~/ 12).toString() + ':00';
-                  }
-                  return '';
-                },
-              ),
-              leftTitles: SideTitles()),
-          minX: (_counter - 40).toDouble(),
-          minY: 0,
-          extraLinesData: ExtraLinesData(horizontalLines: [
-            HorizontalLine(y: 0, strokeWidth: this.isExpanded ? 1 : 0, label: HorizontalLineLabel())
-          ]),
-          clipData:
-              FlClipData(left: true, right: true, top: false, bottom: true),
-          axisTitleData: FlAxisTitleData(
-            show: this.isExpanded,
-            leftTitle: AxisTitle(
-              showTitle: true,
-              titleText: 'Value',
-              textStyle: TextStyle(
-                fontSize: 15,
-                color: Colors.black,
-                fontFamily: 'Oswald',
-              ),
+    return LineChart(LineChartData(
+        titlesData: FlTitlesData(
+            bottomTitles: SideTitles(
+              showTitles: this.isExpanded,
+              getTitles: (value) {
+                if (value.toInt() % 12 == 0) {
+                  return ((value % 144) ~/ 12).toString() + ':00';
+                }
+                return '';
+              },
             ),
-            bottomTitle: AxisTitle(
-              showTitle: true,
-              titleText: 'Time',
-              textStyle: TextStyle(
-                fontSize: 15,
-                color: Colors.black,
-                fontFamily: 'Oswald',
-              ),
+            leftTitles: SideTitles()),
+        minX: (_counter - 40).toDouble(),
+        minY: 0,
+        extraLinesData: ExtraLinesData(horizontalLines: [
+          HorizontalLine(y: 0, strokeWidth: this.isExpanded ? 1 : 0, label: HorizontalLineLabel())
+        ]),
+        clipData:
+            FlClipData(left: true, right: true, top: false, bottom: true),
+        axisTitleData: FlAxisTitleData(
+          show: this.isExpanded,
+          leftTitle: AxisTitle(
+            showTitle: true,
+            titleText: 'Value',
+            textStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+              fontFamily: 'Oswald',
             ),
           ),
-          gridData: FlGridData(
-              show: this.isExpanded, drawHorizontalLine: true, horizontalInterval: 1000),
-          lineTouchData: LineTouchData(
-              enabled: this.isExpanded,
-              touchTooltipData: LineTouchTooltipData(
-                  tooltipBgColor: Color.fromRGBO(0, 0, 0, 0))),
-          borderData: FlBorderData(show: true, border: Border()),
-          lineBarsData: [
-            LineChartBarData(
-                colors: [col],
-                isCurved: true,
-                curveSmoothness: 0.1,
-                barWidth: 3,
-                spots: _spots,
-                dotData: FlDotData(show: false))
-          ])),
-    );
+          bottomTitle: AxisTitle(
+            showTitle: true,
+            titleText: 'Time',
+            textStyle: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
+              fontFamily: 'Oswald',
+            ),
+          ),
+        ),
+        gridData: FlGridData(
+            show: this.isExpanded, drawHorizontalLine: true, horizontalInterval: 1000),
+        lineTouchData: LineTouchData(
+            enabled: this.isExpanded,
+            touchTooltipData: LineTouchTooltipData(
+                tooltipBgColor: Color.fromRGBO(0, 0, 0, 0))),
+        borderData: FlBorderData(show: true, border: Border()),
+        lineBarsData: [
+          LineChartBarData(
+              colors: [col],
+              isCurved: true,
+              curveSmoothness: 0.1,
+              barWidth: 3,
+              spots: _spots,
+              dotData: FlDotData(show: false))
+        ]));
   }
 }

@@ -8,6 +8,9 @@ class StockCard extends StatefulWidget {
 }
 
 class _StockCardState extends State<StockCard> {
+  
+  bool isExpanded = true;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -30,7 +33,7 @@ class _StockCardState extends State<StockCard> {
             ),
             Spacer(),
             SizedBox(
-              child: Graph(isExpanded: false),
+              child: Graph(isExpanded: isExpanded),
               height: 100,
               width: 200
             ),
@@ -42,7 +45,8 @@ class _StockCardState extends State<StockCard> {
                 IconButton(
                     icon: Icon(Icons.keyboard_arrow_down_rounded),
                     splashRadius: 15,
-                    onPressed: () {}),
+                    onPressed:() { setState(() { isExpanded = !isExpanded; }); },
+                ),
                 Row(
                   children: [
                     Text(
