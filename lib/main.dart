@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:io';
+
+import './widgets/stock_card.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,37 +38,76 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Widget _buildAppBar() {
+    return Platform.isIOS
+        ? AppBar(
+            centerTitle: true,
+            title: Text(
+              widget.title,
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.normal,
+                color: Colors.black,
+              ),
+            ),
+            elevation: 0,
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    color: Colors.black,
+                  ),
+                  splashRadius: 24,
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          )
+        : AppBar(
+            centerTitle: true,
+            title: Text(
+              widget.title,
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.normal,
+                color: Colors.black,
+              ),
+            ),
+            elevation: 0,
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          widget.title,
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.normal,
-            color: Colors.black,
-          ),
-        ),
-        elevation: 0,
-      ),
+      appBar: _buildAppBar(),
       body: Center(
         // ListView will contain stock widgets
-        child: ListView(
-          children: [],
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          // replace with ListView builder and child ItemBuilder to dynamically
+          // change list size
+          child: ListView(
+            children: [
+              StockCard(),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: FloatingActionButton(
-          // add navigator when stock shopping page is complete
-          onPressed: () {},
-          backgroundColor: Theme.of(context).primaryColor,
-          tooltip: 'Get stocks',
-          child: Icon(Icons.add),
-        ),
-      ),
+      floatingActionButton: Platform.isIOS
+          ? null
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: FloatingActionButton(
+                // add navigator when stock shopping page is complete
+                onPressed: () {},
+                backgroundColor: Theme.of(context).primaryColor,
+                tooltip: 'Get stocks',
+                child: Icon(Icons.add),
+              ),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
