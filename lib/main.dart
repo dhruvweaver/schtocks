@@ -58,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
                 child: IconButton(
+                  tooltip: 'Get stocks',
                   icon: Icon(
                     Icons.add,
                     color: Colors.black,
