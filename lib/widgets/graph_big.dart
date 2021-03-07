@@ -19,18 +19,19 @@ class _GraphBigState extends State<GraphBig> {
   _GraphBigState(this.spots);
   final List<FlSpot> spots;
 
+
   Color col = Colors.red;
 
   void initializeColor() {
-    if (spots.length > 1 && spots[spots.length].y > spots[spots.length-1].y){
+      if (spots.length > 1 && spots[spots.length-1].y > spots[spots.length-2].y){
       col = Colors.green;
     }
   }
 
-  String readTimestamp(int timestamp) {
+  String readTimestamp(double timestamp) {
     var now = new DateTime.now();
     var format = new DateFormat('HH:mm a');
-    var date = new DateTime.fromMicrosecondsSinceEpoch(timestamp * 1000);
+    var date = new DateTime.fromMicrosecondsSinceEpoch(timestamp.toInt() * 1000);
     var diff = date.difference(now);
     var time = '';
 
@@ -50,17 +51,39 @@ class _GraphBigState extends State<GraphBig> {
   @override
   Widget build(BuildContext context) {
     initializeColor();
+
+    double xMin = spots.first.x;
+    double xMax = spots.first.x;
+    double yMax = spots.first.y;
+    for (int i = 1; i < spots.length; i++) {
+      if (spots[i].x < xMin) {
+        xMin = spots[i].x;
+      } else if (spots[i].x > xMax) {
+        xMax = spots[i].x;
+      }
+      if (spots[i].y > yMax) {
+        yMax = spots[i].y;
+      }
+    }
+
+    double xMargin = (xMax-xMin)/4;
     
     return new LineChart(LineChartData(
         titlesData: FlTitlesData(
             bottomTitles: SideTitles(
               showTitles: true,
               getTitles: (value) {
-                return readTimestamp(value.toInt());
+                if (value%9==0){
+                  return readTimestamp(value);
+                }
+                return'';
               },
             ),
             leftTitles: SideTitles()),
         minY: 0,
+        minX: xMin-xMargin,
+        maxX: xMax + xMargin,
+        maxY: 1.5 *yMax,
         extraLinesData: ExtraLinesData(horizontalLines: [
           HorizontalLine(y: 0, strokeWidth: 1, label: HorizontalLineLabel())
         ]),
