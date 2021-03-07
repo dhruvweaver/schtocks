@@ -7,6 +7,7 @@ class Stock {
   final String ticker;
   final String description;
   List<FlSpot> spot;
+  int shares;
 
   Stock({
     @required this.name,
@@ -18,7 +19,19 @@ class Stock {
     this.spot = s;
   }
 
+  void addShares(int sh) {
+    shares = sh;
+  }
+
   factory Stock.fromJson(Map<String, dynamic> json) {
+    return Stock(
+      name: json['name'],
+      ticker: json['ticker'],
+      description: json['desc'],
+    );
+  }
+
+  factory Stock.fromJsonUser(Map<String, dynamic> json) {
     return Stock(
       name: json['name'],
       ticker: json['ticker'],

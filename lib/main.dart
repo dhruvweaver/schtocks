@@ -14,19 +14,33 @@ import 'dart:convert';
 
 import './models/stock.dart';
 import './models/price_info.dart';
+import 'models/user.dart';
 
 var stocks = [];
 
 class AppData {
   List<Stock> stockList;
+  User user;
 
   AppData({
     this.stockList,
+    this.user,
   });
 }
 
 Future<AppData> _fetchAllData() async {
-  return AppData(stockList: await fetchAllStockInfo());
+  List<dynamic> r = [];
+  try {
+    r = await Future.wait([fetchAllStockInfo(), fetchAllUserInfo()]);
+  } catch (e) {
+    print(e);
+  }
+  print(r[0]);
+  print(r[1]);
+  return AppData(
+    stockList: r[0],
+    user: r[1],
+  );
 }
 
 Future<List<Stock>> fetchAllStockInfo() async {
@@ -63,6 +77,27 @@ Future<List<Stock>> fetchAllStockInfo() async {
     // If the server did not return a 200 OK response,
     // then throw an exception.
     throw Exception('Failed to load stock info');
+  }
+}
+
+Future<User> fetchAllUserInfo() async {
+  final response =
+      await http.get(Uri.http('10.0.2.2:3432', 'getUserSummaries'));
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    User userStocks;
+
+    print(response.body);
+    Map<String, dynamic> jsonBody = jsonDecode(response.body);
+    userStocks = User.fromJsonUser('Zak', jsonBody);
+
+    return userStocks;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load user info');
   }
 }
 
@@ -108,24 +143,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<AppData> _appData;
-  Timer timer;
 
   @override
   void initState() {
     super.initState();
     _appData = _fetchAllData();
-    timer = Timer.periodic(Duration(seconds: 15), (Timer t) {
-      setState(() {
-        _appData = _fetchAllData();
-      });
-    });
-    // _appData = _fetchAllData();
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
   }
 
   Widget _buildAppBar() {
@@ -239,7 +261,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemCount: snapshot.data.length,
                   );
                 } else {
-                  return Text('No data');
+                  return Text('Loading data');
                 }
               }),
         ),
