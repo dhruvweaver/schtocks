@@ -33,16 +33,40 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
           child: ListView(
             physics: BouncingScrollPhysics(),
             children: [
-              LeaderboardItem(name: 'Zak', balance: 10000,),
-              LeaderboardItem(name: 'Drew', balance: 5000),
-              LeaderboardItem(name: 'Dhruv', balance: 2500),
-              LeaderboardItem(name: 'Player 4', balance: 2000,),
-              LeaderboardItem(name: 'Player 5', balance: 1500,),
-              LeaderboardItem(name: 'Player 6', balance: 1000,),
-              LeaderboardItem(name: 'Player 7', balance: 500,),
-              LeaderboardItem(name: 'Player 8', balance: 100,),
-              LeaderboardItem(name: 'Player 9', balance: 5,),
-              LeaderboardItem(name: 'Player 10', balance: 0,)
+              LeaderboardItem(
+                name: 'Drew',
+                balance: 10000,
+              ),
+              LeaderboardItem(name: 'Dhruv', balance: 5000),
+              LeaderboardItem(name: 'Lohith', balance: 2500),
+              LeaderboardItem(
+                name: 'Zak',
+                balance: 2000,
+              ),
+              LeaderboardItem(
+                name: 'Player 5',
+                balance: 1500,
+              ),
+              LeaderboardItem(
+                name: 'Player 6',
+                balance: 1000,
+              ),
+              LeaderboardItem(
+                name: 'Player 7',
+                balance: 500,
+              ),
+              LeaderboardItem(
+                name: 'Player 8',
+                balance: 100,
+              ),
+              LeaderboardItem(
+                name: 'Player 9',
+                balance: 5,
+              ),
+              LeaderboardItem(
+                name: 'Player 10',
+                balance: 0,
+              )
             ],
           ),
         ),

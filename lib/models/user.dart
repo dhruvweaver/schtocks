@@ -12,11 +12,11 @@ class User {
   });
 
   factory User.fromJsonUser(String name, Map<String, dynamic> json) {
-    Map<String, int> m;
+    Map<String, int> m = Map<String, int>();
     for (MapEntry<String, dynamic> m2 in json.entries) {
-      for (MapEntry<String, int> m3 in json[m2.key].entries) {
+      for (MapEntry<String, dynamic> m3 in json[m2.key].entries) {
         if (m2.key == name) {
-          m[m3.key] = m3.value;
+          m[m3.key] = m3.value.toInt();
         }
       }
     }

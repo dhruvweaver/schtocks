@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:schtocks/models/stock.dart';
+import 'package:schtocks/models/user.dart';
 
 import '../widgets/stock_card.dart';
 
 class BuyStocksScreen extends StatefulWidget {
   List<Stock> stocksList;
+  String userName;
+  Map<String, int> userStocks;
 
-  BuyStocksScreen({@required this.stocksList});
+  BuyStocksScreen({
+    @required this.stocksList,
+    @required this.userName,
+    @required this.userStocks,
+  });
 
   @override
   _BuyStocksScreenState createState() => _BuyStocksScreenState();
@@ -41,6 +48,8 @@ class _BuyStocksScreenState extends State<BuyStocksScreen> {
             itemBuilder: (ctx, index) {
               return StockCard(
                   name: widget.stocksList[index].name,
+                  username: widget.userName,
+                  shares: widget.userStocks[widget.stocksList[index].ticker],
                   ticker: widget.stocksList[index].ticker,
                   desc: widget.stocksList[index].description,
                   spot: widget.stocksList[index].spot);

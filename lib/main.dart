@@ -254,12 +254,19 @@ class _MyHomePageState extends State<MyHomePage> {
     return userStocks;
   }
 
+  // onGoBack(dynamic value) {
+  //   initState();
+  //   setState(() {});
+  // }
+
   @override
   Widget build(BuildContext context) {
     // List<Stock> stocks;
     // List<Stock> userStocks;
     Future<List<Stock>> stocksF = _appData.then((value) => value.stockList);
     Future<User> userF = _appData.then((value) => value.user);
+    User user;
+    String userName;
     List<Stock> stocks;
     List<Stock> userStocks;
 
@@ -271,22 +278,29 @@ class _MyHomePageState extends State<MyHomePage> {
           child: FutureBuilder(
             future: Future.wait([stocksF, userF]),
             builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+              user = snapshot.data[1];
               stocks = snapshot.data[0];
               userStocks = userStockConverter(snapshot.data[1], stocks);
+              userName = user.name;
+              print(user.stocks['FDAS']);
               if (userStocks.length > 0) {
                 return ListView.builder(
                   physics: BouncingScrollPhysics(),
                   padding: EdgeInsets.only(top: 30, bottom: 80),
                   itemBuilder: (ctx, index) {
+                    print(index);
                     return StockCard(
                         name: userStocks[index].name,
+                        username: userName,
+                        shares: user.stocks[userStocks[index].ticker],
                         ticker: userStocks[index].ticker,
                         desc: userStocks[index].description,
                         spot: userStocks[index].spot);
                   },
-                  itemCount: stocks.length,
+                  itemCount: userStocks.length,
                 );
               } else {
+                print(userName);
                 return Text(
                   'Buy some stocks!',
                   style: TextStyle(fontSize: 20),
@@ -301,15 +315,20 @@ class _MyHomePageState extends State<MyHomePage> {
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  final value = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => BuyStocksScreen(
                         stocksList: stocks,
+                        userName: userName,
+                        userStocks: user.stocks,
                       ),
                     ),
                   );
+                  setState(() {
+                    _appData = _fetchAllData();
+                  });
                 },
                 backgroundColor: Theme.of(context).primaryColor,
                 tooltip: 'Get stocks',
