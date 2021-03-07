@@ -68,8 +68,6 @@ class _GraphBigState extends State<GraphBig> {
         yMax = spots[i].y;
       }
     }
-
-    double xMargin = (xMax-xMin)/100;
     
     return LineChart(LineChartData(
         titlesData: FlTitlesData(
@@ -93,7 +91,7 @@ class _GraphBigState extends State<GraphBig> {
           show: true,
           leftTitle: AxisTitle(
             showTitle: true,
-            titleText: 'Price',
+            titleText: 'Price(\$)',
             textStyle: TextStyle(
               fontSize: 22,
               color: Colors.black,
@@ -117,15 +115,15 @@ class _GraphBigState extends State<GraphBig> {
             touchTooltipData: LineTouchTooltipData(
                 tooltipBgColor: Color.fromRGBO(0, 0, 0, 0))),
         borderData: FlBorderData(show: true, border: Border(
-          bottom: BorderSide(width: 3),
-          left: BorderSide(width: 3)
+          bottom: BorderSide(width: 3, color: Colors.grey),
+          left: BorderSide(width: 3, color: Colors.grey)
         )),
         lineBarsData: [
           LineChartBarData(
               colors: [col],
               isCurved: true,
               curveSmoothness: 0.1,
-              barWidth: 3,
+              barWidth: 4,
               spots: spots,
               dotData: FlDotData(show: false))
         ]));
