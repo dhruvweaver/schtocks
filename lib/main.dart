@@ -5,12 +5,51 @@ import 'dart:io';
 
 import './widgets/stock_card.dart';
 import './screens/buy_stocks_screen.dart';
+import './models/stock_data.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import './models/stock.dart';
+
+var stocks = [];
+Future<List<Stock>> fetchAllStockInfo() async {
+  final response = await http.get(Uri.http('10.0.2.2:3432', 'getAllStockInfo'));
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    List<Stock> stocks = [];
+    List<dynamic> jsonBody = jsonDecode(response.body);
+    for (int i = 0; i < jsonBody.length; i++) {
+      stocks.add(Stock.fromJson(jsonBody[i]));
+    }
+    for (int i = 0; i < stocks.length; i++) print(stocks[i].name);
+    return stocks;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load stock info');
+  }
+}
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Future<List<Stock>> futureStock;
+
+  @override
+  void initState() {
+    super.initState();
+    futureStock = fetchAllStockInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
