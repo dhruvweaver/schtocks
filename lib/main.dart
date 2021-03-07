@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:schtocks/models/price_info.dart';
@@ -30,6 +32,12 @@ Future<AppData> _fetchAllData() async {
 Future<List<Stock>> fetchAllStockInfo() async {
   final response = await http.get(Uri.http('10.0.2.2:3432', 'getAllStockInfo'));
   final responseP = await http.get(Uri.http('10.0.2.2:3432', 'getAllPrices'));
+  // final response = Platform.isIOS
+  //     ? await http.get(Uri.http('localhost:3432', 'getAllStockInfo'))
+  //     : await http.get(Uri.http('10.0.2.2:3432', 'getAllStockInfo'));
+  // final responseP = Platform.isIOS
+  //     ? await http.get(Uri.http('localhost:3432', 'getAllPrices'))
+  //     : await http.get(Uri.http('10.0.2.2:3432', 'getAllPrices'));
 
   if (response.statusCode == 200 && responseP.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -43,7 +51,6 @@ Future<List<Stock>> fetchAllStockInfo() async {
       Stock s = Stock.fromJson(jsonBody[i]);
       stocks.add(s);
       m[s.ticker] = s;
-      //pInfo.add(PriceInfo.fromJson(jsonBody2));
     }
 
     for (MapEntry<String, dynamic> pEntry in jsonBody2.entries) {
@@ -101,17 +108,48 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<AppData> _appData;
+  Timer timer;
 
   @override
   void initState() {
     super.initState();
     _appData = _fetchAllData();
-    print(_appData.then((value) => print(value.stockList[0].name)));
+    timer = Timer.periodic(Duration(seconds: 15), (Timer t) {
+      setState(() {
+        _appData = _fetchAllData();
+      });
+    });
+    // _appData = _fetchAllData();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   Widget _buildAppBar() {
     return Platform.isIOS
         ? AppBar(
+            leading: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+              child: IconButton(
+                tooltip: 'Leaderboard',
+                splashRadius: 24,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LeaderboardScreen(),
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.leaderboard_outlined,
+                  color: Colors.black,
+                ),
+              ),
+            ),
             centerTitle: true,
             title: Text(
               widget.title,
@@ -145,7 +183,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           )
         : AppBar(
-            leading: IconButton(
+            leading: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+              child: IconButton(
+                tooltip: 'Leaderboard',
+                splashRadius: 24,
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -157,7 +199,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: Icon(
                   Icons.leaderboard_outlined,
                   color: Colors.black,
-                )),
+                ),
+              ),
+            ),
             centerTitle: true,
             title: Text(
               widget.title,
@@ -171,21 +215,13 @@ class _MyHomePageState extends State<MyHomePage> {
           );
   }
 
-  // _getItemCount() async {
-  //   await _MyAppState() {}
-  //   return _MyAppState()._appData.then((value) => value.stockList.length);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
       body: Center(
-        // ListView will contain stock widgets
         child: Padding(
           padding: const EdgeInsets.all(20),
-          // replace with ListView builder and child ItemBuilder to dynamically
-          // change list size
           child: FutureBuilder<List<Stock>>(
               future: _appData.then((value) => value.stockList),
               builder: (context, snapshot) {
