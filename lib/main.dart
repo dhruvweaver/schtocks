@@ -35,8 +35,6 @@ Future<AppData> _fetchAllData() async {
   } catch (e) {
     print(e);
   }
-  print(r[0]);
-  print(r[1]);
   return AppData(
     stockList: r[0],
     user: r[1],
@@ -150,7 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _appData = _fetchAllData();
   }
 
-  Widget _buildAppBar() {
+  Widget _buildAppBar(List<Stock> stocks) {
     return Platform.isIOS
         ? AppBar(
             leading: Padding(
@@ -196,7 +194,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => BuyStocksScreen(),
+                        builder: (context) => BuyStocksScreen(
+                          stocksList: stocks,
+                        ),
                       ),
                     );
                   },
@@ -237,33 +237,63 @@ class _MyHomePageState extends State<MyHomePage> {
           );
   }
 
+  List<Stock> userStockConverter(User user, List<Stock> allStocks) {
+    List<Stock> userStocks = [];
+    if (user.stocks == null) {
+      return userStocks;
+    }
+
+    for (MapEntry<String, int> pair in user.stocks.entries) {
+      for (int i = 0; i < allStocks.length; i++) {
+        if (pair.key == allStocks[i].ticker) {
+          userStocks.add(allStocks[i]);
+        }
+      }
+    }
+
+    return userStocks;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // List<Stock> stocks;
+    // List<Stock> userStocks;
+    Future<List<Stock>> stocksF = _appData.then((value) => value.stockList);
+    Future<User> userF = _appData.then((value) => value.user);
+    List<Stock> stocks;
+    List<Stock> userStocks;
+
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(stocks),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: FutureBuilder<List<Stock>>(
-              future: _appData.then((value) => value.stockList),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    padding: EdgeInsets.only(top: 30, bottom: 80),
-                    itemBuilder: (ctx, index) {
-                      return StockCard(
-                          name: snapshot.data[index].name,
-                          ticker: snapshot.data[index].ticker,
-                          desc: snapshot.data[index].description,
-                          spot: snapshot.data[index].spot);
-                    },
-                    itemCount: snapshot.data.length,
-                  );
-                } else {
-                  return Text('Loading data');
-                }
-              }),
+          child: FutureBuilder(
+            future: Future.wait([stocksF, userF]),
+            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+              stocks = snapshot.data[0];
+              userStocks = userStockConverter(snapshot.data[1], stocks);
+              if (userStocks.length > 0) {
+                return ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  padding: EdgeInsets.only(top: 30, bottom: 80),
+                  itemBuilder: (ctx, index) {
+                    return StockCard(
+                        name: userStocks[index].name,
+                        ticker: userStocks[index].ticker,
+                        desc: userStocks[index].description,
+                        spot: userStocks[index].spot);
+                  },
+                  itemCount: stocks.length,
+                );
+              } else {
+                return Text(
+                  'Buy some stocks!',
+                  style: TextStyle(fontSize: 20),
+                );
+              }
+            },
+          ),
         ),
       ),
       floatingActionButton: Platform.isIOS
@@ -275,7 +305,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BuyStocksScreen(),
+                      builder: (context) => BuyStocksScreen(
+                        stocksList: stocks,
+                      ),
                     ),
                   );
                 },

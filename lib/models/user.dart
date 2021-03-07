@@ -20,8 +20,6 @@ class User {
         }
       }
     }
-    print(name);
-    print(m);
     return User(name: name, stocks: m);
   }
 }
