@@ -18,7 +18,7 @@ class PriceInfo {
       l.add(
         FlSpot(
           p['Time'].toDouble(),
-          p['Price'],
+          double.parse(p['Price'].toStringAsFixed(2)),
         ),
       );
     }

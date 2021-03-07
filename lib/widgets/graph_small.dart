@@ -21,21 +21,43 @@ class _GraphSmallState extends State<GraphSmall> {
   Color col = Colors.red;
 
   void initializeColor() {
-    if (spots.length > 1 && spots[spots.length].y > spots[spots.length-1].y){
+    if (spots.length > 1 && spots[spots.length-1].y > spots[spots.length-41].y){
       col = Colors.green;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    
+    initializeColor();
+    double xMin = spots.first.x;
+    double xMax = spots.first.x;
+    double yMin = spots.first.y;
+    double yMax = spots.first.y;
+    for (int i = 1; i < spots.length; i++) {
+      if (spots[i].x < xMin) {
+        xMin = spots[i].x;
+      } else if (spots[i].x > xMax) {
+        xMax = spots[i].x;
+      }
+      if (spots[i].y < yMin) {
+        yMin = spots[i].y;
+      } else if (spots[i].y > yMax) {
+        yMax = spots[i].y;
+      }
+    }
+
+    double xMargin = (xMax-xMin)/200;
+
     return new LineChart(LineChartData(
         titlesData: FlTitlesData(
             bottomTitles: SideTitles(
               showTitles: false,
             ),
             leftTitles: SideTitles()),
-        minY: 0,
+        minX: xMax - 60000000000,
+        maxX: xMax,
+        minY: 0.999 * yMin,
+        maxY: 1.001 *yMax,
         clipData:
             FlClipData(left: true, right: true, top: false, bottom: true),
         axisTitleData: FlAxisTitleData(

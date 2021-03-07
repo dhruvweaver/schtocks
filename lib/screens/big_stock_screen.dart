@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 import '../widgets/graph_big.dart';
 
 class BigStockScreen extends StatefulWidget {
   //TODO: create boolean parameter that determines whether or not to enable
   // buying functionality.
+
+  final String name;
+  final String ticker;
+  final String desc;
+  final List<FlSpot> spot;
+
+  BigStockScreen({
+    this.name,
+    this.ticker,
+    this.desc,
+    this.spot,
+  });
 
   @override
   _BigStockScreenState createState() => _BigStockScreenState();
@@ -18,7 +31,7 @@ class _BigStockScreenState extends State<BigStockScreen> {
         iconTheme: Theme.of(context).iconTheme,
         centerTitle: true,
         title: Text(
-          'Stock 1',
+          widget.name,
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.normal,
@@ -34,7 +47,7 @@ class _BigStockScreenState extends State<BigStockScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 18, 0),
-                child: GraphBig(),
+                child: new GraphBig(spots: widget.spot),
               ),
               SizedBox(
                 height: 40,
@@ -56,8 +69,7 @@ class _BigStockScreenState extends State<BigStockScreen> {
               SizedBox(
                 height: 30,
               ),
-              Text('About'),
-              GraphBig(),
+              Text(widget.desc),
             ],
           ),
         ),

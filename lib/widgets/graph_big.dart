@@ -23,15 +23,15 @@ class _GraphBigState extends State<GraphBig> {
   Color col = Colors.red;
 
   void initializeColor() {
-      if (spots.length > 1 && spots[spots.length-1].y > spots[spots.length-2].y){
+      if (spots.length > 1 && spots[spots.length-1].y > spots[spots.length-41].y){
       col = Colors.green;
     }
   }
 
   String readTimestamp(double timestamp) {
     var now = new DateTime.now();
-    var format = new DateFormat('HH:mm a');
-    var date = new DateTime.fromMicrosecondsSinceEpoch(timestamp.toInt() * 1000);
+    var format = new DateFormat('HH:mm:ss a');
+    var date = new DateTime.fromMicrosecondsSinceEpoch(timestamp ~/ 1000);
     var diff = date.difference(now);
     var time = '';
 
@@ -54,6 +54,7 @@ class _GraphBigState extends State<GraphBig> {
 
     double xMin = spots.first.x;
     double xMax = spots.first.x;
+    double yMin = spots.first.y;
     double yMax = spots.first.y;
     for (int i = 1; i < spots.length; i++) {
       if (spots[i].x < xMin) {
@@ -61,12 +62,14 @@ class _GraphBigState extends State<GraphBig> {
       } else if (spots[i].x > xMax) {
         xMax = spots[i].x;
       }
-      if (spots[i].y > yMax) {
+      if (spots[i].y < yMin) {
+        yMin = spots[i].y;
+      } else if (spots[i].y > yMax) {
         yMax = spots[i].y;
       }
     }
 
-    double xMargin = (xMax-xMin)/4;
+    double xMargin = (xMax-xMin)/100;
     
     return new LineChart(LineChartData(
         titlesData: FlTitlesData(
@@ -80,10 +83,10 @@ class _GraphBigState extends State<GraphBig> {
               },
             ),
             leftTitles: SideTitles()),
-        minY: 0,
-        minX: xMin-xMargin,
-        maxX: xMax + xMargin,
-        maxY: 1.5 *yMax,
+        minX: xMax - 60000000000,
+        maxX: xMax,
+        minY: 0.999 * yMin,
+        maxY: 1.001 *yMax,
         extraLinesData: ExtraLinesData(horizontalLines: [
           HorizontalLine(y: 0, strokeWidth: 1, label: HorizontalLineLabel())
         ]),

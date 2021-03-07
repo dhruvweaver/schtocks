@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:schtocks/widgets/graph_big.dart';
+import 'package:sprintf/sprintf.dart';
 
 import '../screens/big_stock_screen.dart';
 import '../widgets/graph_small.dart';
@@ -22,15 +24,27 @@ class StockCard extends StatefulWidget {
 }
 
 class _StockCardState extends State<StockCard> {
+String truncateWithEllipsis(int cutoff, String myString) {
+  return (myString.length <= cutoff)
+    ? myString
+    : '${myString.substring(0, cutoff)}...';
+}
+
   @override
   Widget build(BuildContext context) {
-    GraphSmall g = GraphSmall();
+    GraphSmall g = new GraphSmall(spots: widget.spot);
+    double percentChange = (((widget.spot[widget.spot.length-1].y - widget.spot[widget.spot.length-41].y)/widget.spot[widget.spot.length-41].y)*100);
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BigStockScreen(),
+            builder: (context) => BigStockScreen(
+              name: widget.name,
+              ticker: widget.ticker,
+              desc: widget.desc,
+              spot: widget.spot                         
+            ),
           ),
         );
       },
@@ -38,14 +52,14 @@ class _StockCardState extends State<StockCard> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 3,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
           child: Row(
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.name,
+                    truncateWithEllipsis(12, widget.name),
                     style: TextStyle(fontSize: 22),
                   ),
                   SizedBox(
@@ -58,7 +72,7 @@ class _StockCardState extends State<StockCard> {
                 ],
               ),
               Spacer(),
-              SizedBox(child: g, height: 100, width: 200),
+              SizedBox(child: g, height: 50, width: 125),
               // Text('Graph placeholder'),
               Spacer(),
               Column(
@@ -67,15 +81,15 @@ class _StockCardState extends State<StockCard> {
                   Row(
                     children: [
                       Text(
-                        '38%',
+                        sprintf("%.2f",[percentChange]) + '%',
                         style: TextStyle(
                           fontSize: 22,
-                          color: Theme.of(context).primaryColor,
+                          color: percentChange > 0 ? Colors.green : Colors.red
                         ),
                       ),
                       Icon(
-                        Icons.arrow_upward_rounded,
-                        color: Theme.of(context).primaryColor,
+                        percentChange > 0 ? Icons.arrow_upward_rounded: Icons.arrow_downward_rounded,
+                        color: percentChange > 0 ? Colors.green : Colors.red
                       ),
                     ],
                   ),

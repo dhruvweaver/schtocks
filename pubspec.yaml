@@ -26,6 +26,7 @@ dependencies:
   fl_chart: ^0.20.1
   intl: ^0.17.0
   http: ^0.13.0
+  sprintf: "^5.0.0"
 
 
   # The following adds the Cupertino Icons font to your application.
