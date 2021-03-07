@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -24,6 +26,7 @@ class BigStockScreen extends StatefulWidget {
 }
 
 class _BigStockScreenState extends State<BigStockScreen> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

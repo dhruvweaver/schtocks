@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:schtocks/widgets/graph_big.dart';
@@ -24,15 +26,24 @@ class StockCard extends StatefulWidget {
 }
 
 class _StockCardState extends State<StockCard> {
-String truncateWithEllipsis(int cutoff, String myString) {
-  return (myString.length <= cutoff)
-    ? myString
-    : '${myString.substring(0, cutoff)}...';
-}
+  PageController pageController;
+
+ @override
+  void initState() {
+    super.initState();
+    /// Instantiate the PageController in initState.
+    pageController = PageController();
+  }
+
+
+  String truncateWithEllipsis(int cutoff, String myString) {
+    return (myString.length <= cutoff)
+      ? myString
+      : '${myString.substring(0, cutoff)}...';
+  }
 
   @override
   Widget build(BuildContext context) {
-    GraphSmall g = new GraphSmall(spots: widget.spot);
     double percentChange = (((widget.spot[widget.spot.length-1].y - widget.spot[widget.spot.length-41].y)/widget.spot[widget.spot.length-41].y)*100);
     return GestureDetector(
       onTap: () {
@@ -75,8 +86,7 @@ String truncateWithEllipsis(int cutoff, String myString) {
                 ],
               ),
               Spacer(),
-              SizedBox(child: g, height: 50, width: 125),
-              // Text('Graph placeholder'),
+              SizedBox(child: new GraphSmall(spots: widget.spot), height: 50, width: 125),
               Spacer(),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,

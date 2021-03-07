@@ -5,10 +5,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'dart:math';
 
 class GraphSmall extends StatefulWidget {
-   final List<FlSpot> spots;
+  List<FlSpot> spots;
   GraphSmall({
-    List<FlSpot> spots
-  }): this.spots = spots;
+    this.spots,
+  }); 
   
   @override
   _GraphSmallState createState() => new _GraphSmallState(spots);
@@ -16,7 +16,7 @@ class GraphSmall extends StatefulWidget {
 
 class _GraphSmallState extends State<GraphSmall> { 
   _GraphSmallState(this.spots);
-  final List<FlSpot> spots;
+  List<FlSpot> spots;
   
   Color col = Colors.red;
 
@@ -45,8 +45,6 @@ class _GraphSmallState extends State<GraphSmall> {
         yMax = spots[i].y;
       }
     }
-
-    double xMargin = (xMax-xMin)/200;
 
     return new LineChart(LineChartData(
         titlesData: FlTitlesData(

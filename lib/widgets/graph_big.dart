@@ -7,9 +7,12 @@ import 'package:intl/intl.dart';
 
 class GraphBig extends StatefulWidget {
   final List<FlSpot> spots;
-  GraphBig({
-    List<FlSpot> spots
-  }): this.spots = spots;
+
+  GraphBig(
+    {
+      List<FlSpot> spots
+    }
+  ): this.spots = spots;
 
   @override
   _GraphBigState createState() => new _GraphBigState(spots);
@@ -18,7 +21,6 @@ class GraphBig extends StatefulWidget {
 class _GraphBigState extends State<GraphBig> { 
   _GraphBigState(this.spots);
   final List<FlSpot> spots;
-
 
   Color col = Colors.red;
 
@@ -50,6 +52,7 @@ class _GraphBigState extends State<GraphBig> {
 
   @override
   Widget build(BuildContext context) {
+    print(this.spots.last.y);
     initializeColor();
 
     double xMin = spots.first.x;
@@ -83,8 +86,8 @@ class _GraphBigState extends State<GraphBig> {
             leftTitles: SideTitles()),
         minX: xMax - 60000000000,
         maxX: xMax,
-        minY: 0.99 * yMin,
-        maxY: 1.01 *yMax,
+        minY: 0.9 * yMin,
+        maxY: 1.1 *yMax,
         clipData:
             FlClipData(left: true, right: true, top: false, bottom: true),
         axisTitleData: FlAxisTitleData(
