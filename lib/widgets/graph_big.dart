@@ -6,31 +6,23 @@ import 'dart:math';
 import 'package:intl/intl.dart';
 
 class GraphBig extends StatefulWidget {
-  final List<int> times;
-  final List<double> prices;
+  final List<FlSpot> spots;
   GraphBig({
-    List<int> times,
-    List<double> prices
-  }): this.times = times, this.prices = prices;
+    List<FlSpot> spots
+  }): this.spots = spots;
 
   @override
-  _GraphBigState createState() => new _GraphBigState(times, prices);
+  _GraphBigState createState() => new _GraphBigState(spots);
 }
 
 class _GraphBigState extends State<GraphBig> { 
-  _GraphBigState(this.times, this.prices);
-  final List<int> times;
-  final List<double> prices;
+  _GraphBigState(this.spots);
+  final List<FlSpot> spots;
 
   Color col = Colors.red;
-  var _spots = <FlSpot>[];
 
-  void initializeSpots() {
-    for (int i = 0; i < times.length; i++) {
-      _spots.add(FlSpot(times[i].toDouble(), prices[i]));
-    }
-
-    if (prices.length > 1 && prices[prices.length] > prices[prices.length-1]){
+  void initializeColor() {
+    if (spots.length > 1 && spots[spots.length].y > spots[spots.length-1].y){
       col = Colors.green;
     }
   }
@@ -57,7 +49,7 @@ class _GraphBigState extends State<GraphBig> {
 
   @override
   Widget build(BuildContext context) {
-    initializeSpots();
+    initializeColor();
     
     return new LineChart(LineChartData(
         titlesData: FlTitlesData(
@@ -108,7 +100,7 @@ class _GraphBigState extends State<GraphBig> {
               isCurved: true,
               curveSmoothness: 0.1,
               barWidth: 3,
-              spots: _spots,
+              spots: spots,
               dotData: FlDotData(show: false))
         ]));
   }

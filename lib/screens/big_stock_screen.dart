@@ -57,6 +57,7 @@ class _BigStockScreenState extends State<BigStockScreen> {
                 height: 30,
               ),
               Text('About'),
+              GraphBig(),
             ],
           ),
         ),
