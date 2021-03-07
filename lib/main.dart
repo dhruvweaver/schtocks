@@ -30,6 +30,12 @@ Future<AppData> _fetchAllData() async {
 Future<List<Stock>> fetchAllStockInfo() async {
   final response = await http.get(Uri.http('10.0.2.2:3432', 'getAllStockInfo'));
   final responseP = await http.get(Uri.http('10.0.2.2:3432', 'getAllPrices'));
+  // final response = Platform.isIOS
+  //     ? await http.get(Uri.http('localhost:3432', 'getAllStockInfo'))
+  //     : await http.get(Uri.http('10.0.2.2:3432', 'getAllStockInfo'));
+  // final responseP = Platform.isIOS
+  //     ? await http.get(Uri.http('localhost:3432', 'getAllPrices'))
+  //     : await http.get(Uri.http('10.0.2.2:3432', 'getAllPrices'));
 
   if (response.statusCode == 200 && responseP.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -112,6 +118,25 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildAppBar() {
     return Platform.isIOS
         ? AppBar(
+            leading: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+              child: IconButton(
+                tooltip: 'Leaderboard',
+                splashRadius: 24,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LeaderboardScreen(),
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.leaderboard_outlined,
+                  color: Colors.black,
+                ),
+              ),
+            ),
             centerTitle: true,
             title: Text(
               widget.title,
@@ -145,7 +170,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           )
         : AppBar(
-            leading: IconButton(
+            leading: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+              child: IconButton(
+                tooltip: 'Leaderboard',
+                splashRadius: 24,
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -157,7 +186,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: Icon(
                   Icons.leaderboard_outlined,
                   color: Colors.black,
-                )),
+                ),
+              ),
+            ),
             centerTitle: true,
             title: Text(
               widget.title,
