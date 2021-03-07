@@ -112,7 +112,7 @@ class _GraphBigState extends State<GraphBig> {
           ),
         ),
         gridData: FlGridData(
-            show: true, drawHorizontalLine: true, horizontalInterval: 10),
+            show: false, drawHorizontalLine: true, horizontalInterval: 10),
         lineTouchData: LineTouchData(
             enabled: true,
             touchTooltipData: LineTouchTooltipData(

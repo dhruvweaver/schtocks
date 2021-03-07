@@ -55,24 +55,56 @@ class _BigStockScreenState extends State<BigStockScreen> {
               SizedBox(
                 height: 40,
               ),
-              ElevatedButton(
-                child: Text(
-                  'Sell',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
+              Row(
+                children: [
+                  Spacer(),
+                  ElevatedButton(
+                    child: Text(
+                      'Buy',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      Colors.green),
+                    minimumSize: MaterialStateProperty.all<Size>(
+                      Size(60, 30)
+                    )
                   ),
-                ),
-                style: ButtonStyle(
+                  onPressed: () {},
+                  ),
+                  Spacer(),
+                  ElevatedButton(
+                    child: Text(
+                      'Sell',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).accentColor),
+                    Colors.red),
+                  minimumSize: MaterialStateProperty.all<Size>(
+                    Size(60, 30)
+                  )
                 ),
                 onPressed: () {},
               ),
+              Spacer()
+                ],
+              ),           
               SizedBox(
                 height: 30,
               ),
-              Text(widget.desc),
+              Text(
+                widget.desc,
+                style: TextStyle(
+                  fontSize: 20
+                ),
+              ),
             ],
           ),
         ),
