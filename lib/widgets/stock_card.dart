@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 import '../screens/big_stock_screen.dart';
 import '../widgets/graph_small.dart';
 
 class StockCard extends StatefulWidget {
+  final String name;
+  final String ticker;
+  final String desc;
+  final List<FlSpot> spot;
+
+  StockCard({
+    this.name,
+    this.ticker,
+    this.desc,
+    this.spot,
+  });
+
   @override
   _StockCardState createState() => _StockCardState();
 }
@@ -32,14 +45,14 @@ class _StockCardState extends State<StockCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Stock 1',
+                    widget.name,
                     style: TextStyle(fontSize: 22),
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   Text(
-                    'TCKR',
+                    widget.ticker,
                     style: TextStyle(fontSize: 22),
                   ),
                 ],

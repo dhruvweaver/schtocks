@@ -1,20 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:schtocks/models/price_info.dart';
 
 class Stock {
   final String name;
   final String ticker;
   final String description;
-  final List time;
-  final List price;
+  List<FlSpot> spot;
 
   Stock({
     @required this.name,
     @required this.ticker,
     @required this.description,
-    @required this.time,
-    @required this.price,
   });
+
+  void addSpot(List<FlSpot> s) {
+    this.spot = s;
+  }
 
   factory Stock.fromJson(Map<String, dynamic> json) {
     return Stock(
