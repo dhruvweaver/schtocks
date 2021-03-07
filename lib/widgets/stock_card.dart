@@ -58,16 +58,19 @@ String truncateWithEllipsis(int cutoff, String myString) {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    truncateWithEllipsis(12, widget.name),
-                    style: TextStyle(fontSize: 22),
+                  SizedBox(
+                    child: Text(
+                      truncateWithEllipsis(30, widget.name),
+                      style: TextStyle(fontSize: 22),
+                    ),
+                    width: 100
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   Text(
                     widget.ticker,
-                    style: TextStyle(fontSize: 22),
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
                   ),
                 ],
               ),

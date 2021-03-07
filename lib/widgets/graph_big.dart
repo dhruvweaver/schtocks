@@ -71,7 +71,7 @@ class _GraphBigState extends State<GraphBig> {
 
     double xMargin = (xMax-xMin)/100;
     
-    return new LineChart(LineChartData(
+    return LineChart(LineChartData(
         titlesData: FlTitlesData(
             bottomTitles: SideTitles(
               showTitles: true,
@@ -85,20 +85,17 @@ class _GraphBigState extends State<GraphBig> {
             leftTitles: SideTitles()),
         minX: xMax - 60000000000,
         maxX: xMax,
-        minY: 0.999 * yMin,
-        maxY: 1.001 *yMax,
-        extraLinesData: ExtraLinesData(horizontalLines: [
-          HorizontalLine(y: 0, strokeWidth: 1, label: HorizontalLineLabel())
-        ]),
+        minY: 0.99 * yMin,
+        maxY: 1.01 *yMax,
         clipData:
             FlClipData(left: true, right: true, top: false, bottom: true),
         axisTitleData: FlAxisTitleData(
           show: true,
           leftTitle: AxisTitle(
             showTitle: true,
-            titleText: 'Value',
+            titleText: 'Price',
             textStyle: TextStyle(
-              fontSize: 15,
+              fontSize: 22,
               color: Colors.black,
               fontFamily: 'Oswald',
             ),
@@ -107,19 +104,22 @@ class _GraphBigState extends State<GraphBig> {
             showTitle: true,
             titleText: 'Time',
             textStyle: TextStyle(
-              fontSize: 15,
+              fontSize: 22,
               color: Colors.black,
               fontFamily: 'Oswald',
             ),
           ),
         ),
         gridData: FlGridData(
-            show: true, drawHorizontalLine: true, horizontalInterval: 1000),
+            show: true, drawHorizontalLine: true, horizontalInterval: 10),
         lineTouchData: LineTouchData(
             enabled: true,
             touchTooltipData: LineTouchTooltipData(
                 tooltipBgColor: Color.fromRGBO(0, 0, 0, 0))),
-        borderData: FlBorderData(show: true, border: Border()),
+        borderData: FlBorderData(show: true, border: Border(
+          bottom: BorderSide(width: 3),
+          left: BorderSide(width: 3)
+        )),
         lineBarsData: [
           LineChartBarData(
               colors: [col],
