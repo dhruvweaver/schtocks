@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:schtocks/models/price_info.dart';
@@ -49,7 +51,6 @@ Future<List<Stock>> fetchAllStockInfo() async {
       Stock s = Stock.fromJson(jsonBody[i]);
       stocks.add(s);
       m[s.ticker] = s;
-      //pInfo.add(PriceInfo.fromJson(jsonBody2));
     }
 
     for (MapEntry<String, dynamic> pEntry in jsonBody2.entries) {
@@ -107,12 +108,24 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<AppData> _appData;
+  Timer timer;
 
   @override
   void initState() {
     super.initState();
     _appData = _fetchAllData();
-    print(_appData.then((value) => print(value.stockList[0].name)));
+    timer = Timer.periodic(Duration(seconds: 15), (Timer t) {
+      setState(() {
+        _appData = _fetchAllData();
+      });
+    });
+    // _appData = _fetchAllData();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   Widget _buildAppBar() {
@@ -202,21 +215,13 @@ class _MyHomePageState extends State<MyHomePage> {
           );
   }
 
-  // _getItemCount() async {
-  //   await _MyAppState() {}
-  //   return _MyAppState()._appData.then((value) => value.stockList.length);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
       body: Center(
-        // ListView will contain stock widgets
         child: Padding(
           padding: const EdgeInsets.all(20),
-          // replace with ListView builder and child ItemBuilder to dynamically
-          // change list size
           child: FutureBuilder<List<Stock>>(
               future: _appData.then((value) => value.stockList),
               builder: (context, snapshot) {
