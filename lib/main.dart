@@ -146,19 +146,18 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         : AppBar(
             leading: IconButton(
-              onPressed: (){
-                Navigator.push(
+                onPressed: () {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => LeaderboardScreen(),
                     ),
                   );
-              },
-              icon: Icon(
-                Icons.leaderboard_outlined,
-                color: Colors.black
-              )
-            ),
+                },
+                icon: Icon(
+                  Icons.leaderboard_outlined,
+                  color: Colors.black,
+                )),
             centerTitle: true,
             title: Text(
               widget.title,
