@@ -5,6 +5,7 @@ import 'dart:io';
 
 import './widgets/stock_card.dart';
 import './screens/buy_stocks_screen.dart';
+import './screens/leaderboard_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -77,6 +78,20 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           )
         : AppBar(
+            leading: IconButton(
+              onPressed: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LeaderboardScreen(),
+                    ),
+                  );
+              },
+              icon: Icon(
+                Icons.leaderboard_outlined,
+                color: Colors.black
+              )
+            ),
             centerTitle: true,
             title: Text(
               widget.title,

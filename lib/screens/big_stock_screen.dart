@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/graph.dart';
+import '../widgets/graph_big.dart';
 
 class BigStockScreen extends StatefulWidget {
   @override
@@ -30,7 +30,7 @@ class _BigStockScreenState extends State<BigStockScreen> {
           child: Column(
             children: [
               Text('About'),
-              Graph(),
+              GraphBig(),
             ],
           ),
         ),
