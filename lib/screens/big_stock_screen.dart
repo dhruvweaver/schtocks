@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../widgets/graph_big.dart';
 
 class BigStockScreen extends StatefulWidget {
+  //TODO: create boolean parameter that determines whether or not to enable
+  // buying functionality.
+
   @override
   _BigStockScreenState createState() => _BigStockScreenState();
 }
@@ -29,6 +32,30 @@ class _BigStockScreenState extends State<BigStockScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 18, 0),
+                child: GraphBig(),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              ElevatedButton(
+                child: Text(
+                  'Sell',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      Theme.of(context).accentColor),
+                ),
+                onPressed: () {},
+              ),
+              SizedBox(
+                height: 30,
+              ),
               Text('About'),
               GraphBig(),
             ],
